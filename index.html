@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wait... I have a question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -12,62 +13,77 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffeef2;
-            font-family: 'Arial', sans-serif;
+            /* New Background Color */
+            background-color: #CF9FFF;
+            font-family: 'Oleo Script', system-ui, sans-serif;
             text-align: center;
-            overflow: hidden; /* Prevents scrollbars if the button moves near the edge */
+            overflow: hidden; 
+            touch-action: manipulation;
         }
 
         h1 {
-            color: #d63384;
+            color: #ffffff; /* White text looks cleaner on this purple */
             font-size: 2.5rem;
             margin-bottom: 20px;
             padding: 0 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .gif-container img {
-            width: 230px;
+            width: 200px;
             border-radius: 15px;
             margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .buttons {
             display: flex;
             flex-direction: row;
-            gap: 40px;
+            gap: 20px;
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 100px;
             position: relative;
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 15px 35px;
+            font-size: 1.3rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.2s ease;
             white-space: nowrap;
+            /* New Button Color and Shadow */
+            background-color: #C3B1E1;
+            color: #5a3e7a; /* Darker purple text for readability */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            font-family: 'Oleo Script', cursive;
+        }
+
+        button:active {
+            transform: translateY(3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         #yesBtn {
-            background-color: #28a745;
-            color: white;
-            z-index: 9999; /* Always stays on top */
+            z-index: 999;
             position: relative;
         }
 
+        /* Note: No special color for No button anymore since you wanted #C3B1E1 for both */
         #noBtn {
-            background-color: #dc3545;
-            color: white;
             position: relative; 
             z-index: 998;
         }
 
         .success-message {
             display: none;
+            padding: 20px;
+        }
+
+        .success-message h1 {
+            color: white;
         }
     </style>
 </head>
@@ -98,44 +114,34 @@
         const successMessage = document.getElementById('success-message');
 
         const guiltPhrases = [
-            "No", 
-            "Wait, what?", 
-            "You clicked it on purpose!?", 
-            "Think again! 🥺", 
-            "My heart is breaking...", 
-            "I'm actually gonna cry", 
-            "Still clicking no? Rude.", 
-            "You're making this very difficult",
-            "I'll give you a cookie! 🍪",
-            "Please? 🥺"
+            "No", "Are you sure?", "Pookie please", "Think again!", 
+            "Don't do this 🥺", "I'm crying...", "Heartbroken", "Rude!", 
+            "I'll be so sad...", "Last chance!"
         ];
 
         let phraseIndex = 0;
-        let yesFontSize = 1.2;
+        let yesFontSize = 1.3;
 
         function handleNoClick() {
-            // 1. Move the button ONLY on click with boundaries
             noBtn.style.position = 'absolute';
             
-            // Calculate random position but keep it within the screen view
-            // Using 150px as a "safe zone" padding from the edges
-            const padding = 100;
-            const maxWidth = window.innerWidth - noBtn.offsetWidth - padding;
-            const maxHeight = window.innerHeight - noBtn.offsetHeight - padding;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            const margin = 50; 
             
-            // Ensure values aren't negative
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+            const maxX = window.innerWidth - btnWidth - margin;
+            const maxY = window.innerHeight - btnHeight - margin;
+            
+            const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
             
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
 
-            // 2. Make Yes button grow
             yesFontSize += 0.4;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
-            yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 20}px`;
+            yesBtn.style.padding = `${yesFontSize * 12}px ${yesFontSize * 25}px`;
 
-            // 3. Update the guilt text
             phraseIndex = (phraseIndex + 1) % guiltPhrases.length;
             noBtn.innerText = guiltPhrases[phraseIndex];
         }
