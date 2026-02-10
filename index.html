@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I have a question...</title>
+    <title>Wait... I have a question</title>
     <style>
         body {
             display: flex;
@@ -33,7 +33,7 @@
 
         .buttons {
             display: flex;
-            flex-direction: row; /* Keeps them side-by-side initially */
+            flex-direction: row;
             gap: 40px;
             align-items: center;
             justify-content: center;
@@ -55,13 +55,13 @@
         #yesBtn {
             background-color: #28a745;
             color: white;
-            z-index: 1000; /* Keeps Yes button on top */
+            z-index: 1000;
         }
 
         #noBtn {
             background-color: #dc3545;
             color: white;
-            position: relative; /* Starts in the flow, then becomes absolute via JS */
+            position: relative; /* Stays in place until clicked */
         }
 
         .success-message {
@@ -73,12 +73,12 @@
 
     <div id="main-content">
         <div class="gif-container">
-            <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
         </div>
-        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        <h1>Will you be my Valentine? ❤️</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">Yes</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            <button id="noBtn" onclick="handleNoClick()">No</button>
         </div>
     </div>
 
@@ -86,7 +86,7 @@
         <div class="gif-container">
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ4Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/K97jXo8o9xR9S/giphy.gif" alt="Happy Dance">
         </div>
-        <h1>YAY! See you on the 14th! 🥰</h1>
+        <h1>YAY! I knew you'd say yes! 🥰</h1>
     </div>
 
     <script>
@@ -97,36 +97,34 @@
 
         const guiltPhrases = [
             "No", 
-            "Are you sure?", 
-            "Really sure??", 
-            "Think again!", 
-            "Don't do this to me :(", 
-            "I'm gonna cry...", 
-            "You're breaking my heart", 
-            "You're being very mean",
-            "I'll be so sad...",
-            "Just click Yes already!"
+            "Wait, what?", 
+            "You clicked it on purpose!?", 
+            "Try again... but click Yes", 
+            "My heart is breaking...", 
+            "I'm actually gonna cry", 
+            "Still clicking no? Rude.", 
+            "You're making this very difficult",
+            "I give up... just kidding, click YES",
+            "Please? 🥺"
         ];
 
         let phraseIndex = 0;
         let yesFontSize = 1.2;
 
-        function moveButton() {
-            // Change button to absolute so it can fly anywhere
+        function handleNoClick() {
+            // 1. Move the button ONLY on click
             noBtn.style.position = 'absolute';
-            
-            // Randomly move the No button
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
 
-            // Make Yes button grow
-            yesFontSize += 0.4;
+            // 2. Make Yes button grow
+            yesFontSize += 0.5;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
             yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 20}px`;
 
-            // Change No button text (Guilt Trip)
+            // 3. Update the guilt text
             phraseIndex = (phraseIndex + 1) % guiltPhrases.length;
             noBtn.innerText = guiltPhrases[phraseIndex];
         }
