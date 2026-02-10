@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question...</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef2;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            width: 250px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+        }
+
+        .success-message {
+            display: none;
+        }
+
+        .success-message h1 {
+            font-size: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-content">
+        <div class="gif-container">
+            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExamh0MnFxbGVtZm16MXdxdWRvbzZ4OWFwNnRlcXkyMGZxdmxkanZlMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/sj93cJMsnoQJkqdgYD/giphy.gif" alt="Cute Bear">
+        </div>
+        <h1>Hey, Sam! Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
+            <button id="noBtn" onmouseover="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div id="success-message" class="success-message">
+        <div class="gif-container">
+            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWhjcmdydmt0N2UwbzRrd2F5MGVnbmRvNzJ3OHk5emdoaGk1MHg0eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tJJ7L31VvDa9PKjyT6/giphy.gif" alt="Happy Dance">
+        </div>
+        <h1>YAY! See you on the 14th Miss! 🥰</h1>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainContent = document.getElementById('main-content');
+        const successMessage = document.getElementById('success-message');
+
+        let yesFontSize = 1.2;
+
+        function moveButton() {
+            // Make the 'No' button jump to a random spot
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            // Make the 'Yes' button bigger every time she tries to click 'No'
+            yesFontSize += 0.5;
+            yesBtn.style.fontSize = `${yesFontSize}rem`;
+            yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 20}px`;
+        }
+
+        function celebrate() {
+            mainContent.style.display = 'none';
+            successMessage.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
