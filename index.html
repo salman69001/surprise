@@ -2,37 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wait... I have a question</title>
     <link href="https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            /* New Background Color */
+            min-height: 100vh;
             background-color: #CF9FFF;
             font-family: 'Oleo Script', system-ui, sans-serif;
             text-align: center;
             overflow: hidden; 
+            position: relative;
             touch-action: manipulation;
         }
 
+        #main-content, #success-message {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
         h1 {
-            color: #ffffff; /* White text looks cleaner on this purple */
+            color: #ffffff;
             font-size: 2.5rem;
             margin-bottom: 20px;
-            padding: 0 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            width: 100%;
+            text-align: center;
+        }
+
+        .gif-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .gif-container img {
             width: 200px;
             border-radius: 15px;
-            margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
@@ -43,6 +64,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            min-height: 150px; /* Space for the button to jump */
             position: relative;
         }
 
@@ -53,12 +75,11 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.2s ease;
-            white-space: nowrap;
-            /* New Button Color and Shadow */
             background-color: #C3B1E1;
-            color: #5a3e7a; /* Darker purple text for readability */
+            color: #5a3e7a;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             font-family: 'Oleo Script', cursive;
+            z-index: 10;
         }
 
         button:active {
@@ -67,23 +88,16 @@
         }
 
         #yesBtn {
-            z-index: 999;
-            position: relative;
+            z-index: 999; /* Yes always stays on top of everything */
         }
 
-        /* Note: No special color for No button anymore since you wanted #C3B1E1 for both */
         #noBtn {
-            position: relative; 
             z-index: 998;
+            transition: left 0.3s ease, top 0.3s ease, font-size 0.2s ease;
         }
 
         .success-message {
             display: none;
-            padding: 20px;
-        }
-
-        .success-message h1 {
-            color: white;
         }
     </style>
 </head>
@@ -94,13 +108,13 @@
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
         </div>
         <h1>Will you be my Valentine? ❤️</h1>
-        <div class="buttons">
+        <div class="buttons" id="button-container">
             <button id="yesBtn" onclick="celebrate()">Yes</button>
             <button id="noBtn" onclick="handleNoClick()">No</button>
         </div>
     </div>
 
-    <div id="success-message" class="success-message">
+    <div id="success-message">
         <div class="gif-container">
             <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ4Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/K97jXo8o9xR9S/giphy.gif" alt="Happy Dance">
         </div>
@@ -123,32 +137,36 @@
         let yesFontSize = 1.3;
 
         function handleNoClick() {
-            noBtn.style.position = 'absolute';
+            // Change to absolute positioning
+            noBtn.style.position = 'fixed';
             
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
-            const margin = 50; 
-            
-            const maxX = window.innerWidth - btnWidth - margin;
-            const maxY = window.innerHeight - btnHeight - margin;
-            
-            const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
-            
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
+            // Calculate a safe padding (15% of screen)
+            const padding = 0.15; 
+            const safeWidth = window.innerWidth * (1 - (padding * 2));
+            const safeHeight = window.innerHeight * (1 - (padding * 2));
 
+            // Generate new position within the center-weighted safe zone
+            const randomX = (Math.random() * safeWidth) + (window.innerWidth * padding);
+            const randomY = (Math.random() * safeHeight) + (window.innerHeight * padding);
+            
+            // Apply new coordinates
+            // We subtract half button width/height to center the button on the point
+            noBtn.style.left = `${randomX - (noBtn.offsetWidth / 2)}px`;
+            noBtn.style.top = `${randomY - (noBtn.offsetHeight / 2)}px`;
+
+            // Make Yes button grow
             yesFontSize += 0.4;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
             yesBtn.style.padding = `${yesFontSize * 12}px ${yesFontSize * 25}px`;
 
+            // Change No button text
             phraseIndex = (phraseIndex + 1) % guiltPhrases.length;
             noBtn.innerText = guiltPhrases[phraseIndex];
         }
 
         function celebrate() {
             mainContent.style.display = 'none';
-            successMessage.style.display = 'block';
+            successMessage.style.display = 'flex';
         }
     </script>
 </body>
