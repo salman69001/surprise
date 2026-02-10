@@ -23,10 +23,10 @@
             font-family: 'Oleo Script', system-ui, sans-serif;
             text-align: center;
             overflow: hidden; 
-            position: fixed; /* Lock body to prevent scrolling */
+            position: fixed;
+            touch-action: manipulation;
         }
 
-        /* Essential Fix: Ensure success message is hidden properly */
         #main-content {
             display: flex;
             flex-direction: column;
@@ -36,7 +36,7 @@
         }
 
         #success-message {
-            display: none; /* Strictly hidden until JS runs */
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -49,6 +49,14 @@
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
             padding: 0 10px;
+            width: 100%;
+            text-align: center; /* Horizontal center alignment */
+        }
+
+        .gif-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
         .gif-container img {
@@ -65,7 +73,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 100px; /* Reference height */
+            height: 100px;
         }
 
         button {
@@ -79,7 +87,7 @@
             color: #5a3e7a;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             font-family: 'Oleo Script', cursive;
-            touch-action: manipulation;
+            text-align: center;
         }
 
         #yesBtn {
@@ -88,7 +96,6 @@
 
         #noBtn {
             z-index: 999;
-            /* Smooth slide when jumping */
             transition: left 0.3s ease, top 0.3s ease, transform 0.2s ease;
         }
     </style>
@@ -99,7 +106,7 @@
         <div class="gif-container">
             <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZidW9scXhxdW9ydm9udmR0ajRndXQ2eGZ6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
         </div>
-        <h1>Will you be my Valentine? ❤️</h1>
+        <h1>Will you be my Valentine?</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">Yes</button>
             <button id="noBtn" onclick="handleNoClick()">No</button>
@@ -110,7 +117,7 @@
         <div class="gif-container">
             <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnZ4Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/K97jXo8o9xR9S/giphy.gif" alt="Happy Dance">
         </div>
-        <h1>YAY! I knew you'd say yes! 🥰</h1>
+        <h1>YAY! I knew you'd say yes!</h1>
     </div>
 
     <script>
@@ -121,7 +128,7 @@
 
         const guiltPhrases = [
             "No", "Are you sure?", "Pookie please", "Think again!", 
-            "Don't do this 🥺", "I'm crying...", "Heartbroken", "Rude!", 
+            "Don't do this", "I'm crying...", "Heartbroken", "Rude!", 
             "I'll be so sad...", "Last chance!"
         ];
 
@@ -131,10 +138,8 @@
         function handleNoClick() {
             noBtn.style.position = 'fixed';
             
-            // 70% Screen Margin Logic
-            // This defines a box in the middle 70% of the viewport
-            const margin = 0.15; // 15% margin on each side (15+70+15 = 100)
-            
+            // 70% Safe Zone (15% margin on all sides)
+            const margin = 0.15; 
             const minX = window.innerWidth * margin;
             const maxX = window.innerWidth * (1 - margin) - noBtn.offsetWidth;
             const minY = window.innerHeight * margin;
@@ -146,12 +151,10 @@
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
 
-            // Growth logic
             yesFontSize += 0.4;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
             yesBtn.style.padding = `${yesFontSize * 12}px ${yesFontSize * 25}px`;
 
-            // Guilt text
             phraseIndex = (phraseIndex + 1) % guiltPhrases.length;
             noBtn.innerText = guiltPhrases[phraseIndex];
         }
@@ -159,7 +162,6 @@
         function celebrate() {
             main.style.display = 'none';
             success.style.display = 'flex';
-            // Clean up the No button if it's floating
             noBtn.style.display = 'none';
         }
     </script>
