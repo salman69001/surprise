@@ -14,20 +14,33 @@
 
         body {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             width: 100vw;
             background-color: #CF9FFF;
             font-family: 'Oleo Script', system-ui, sans-serif;
-            text-align: center;
             overflow: hidden; 
             position: fixed;
             touch-action: manipulation;
         }
 
-        #main-content {
+        /* Central Rounded Container */
+        .glass-card {
+            background-color: #301934;
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            width: 90%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        #main-content, #success-message {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,33 +50,30 @@
 
         #success-message {
             display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
         }
 
         h1 {
             color: #ffffff;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            padding: 0 10px;
+            text-align: center;
             width: 100%;
-            text-align: center; /* Horizontal center alignment */
         }
 
-        .gif-container {
-            display: flex;
-            justify-content: center;
-            width: 100%;
+        .subtitle {
+            color: #C3B1E1;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            opacity: 0.9;
         }
 
         .gif-container img {
-            width: 200px;
+            width: 180px;
             border-radius: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         .buttons {
@@ -73,21 +83,30 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 100px;
+            min-height: 80px;
+            position: relative;
         }
 
         button {
-            padding: 15px 35px;
+            padding: 12px 30px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.2s ease;
             background-color: #C3B1E1;
-            color: #5a3e7a;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            color: #301934;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             font-family: 'Oleo Script', cursive;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .emoji-img {
+            width: 24px;
+            height: 24px;
         }
 
         #yesBtn {
@@ -102,22 +121,29 @@
 </head>
 <body>
 
-    <div id="main-content">
-        <div class="gif-container">
-            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZidW9scXhxdW9ydm9udmR0ajRndXQ2eGZ6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
+    <div class="glass-card">
+        <div id="main-content">
+            <div class="gif-container">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZidW9scXhxdW9ydm9udmR0ajRndXQ2eGZ6ZzB6ZzB6ZzB6ZzB6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
+            </div>
+            <h1>Will you be my Valentine? 
+                <img class="emoji-img" src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png" alt="heart">
+            </h1>
+            <p class="subtitle">Worst case, I still get points for bravery.</p>
+            <div class="buttons">
+                <button id="yesBtn" onclick="celebrate()">
+                    Yes <img class="emoji-img" src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Smiling%20face%20with%20hearts/3D/smiling_face_with_hearts_3d.png" alt="smile">
+                </button>
+                <button id="noBtn" onclick="handleNoClick()">No</button>
+            </div>
         </div>
-        <h1>Will you be my Valentine?</h1>
-        <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes</button>
-            <button id="noBtn" onclick="handleNoClick()">No</button>
-        </div>
-    </div>
 
-    <div id="success-message">
-        <div class="gif-container">
-            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnZ4Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/K97jXo8o9xR9S/giphy.gif" alt="Happy Dance">
+        <div id="success-message">
+            <div class="gif-container">
+                <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnZ4Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/K97jXo8o9xR9S/giphy.gif" alt="Happy Dance">
+            </div>
+            <h1>YAY! I knew you'd say yes!</h1>
         </div>
-        <h1>YAY! I knew you'd say yes!</h1>
     </div>
 
     <script>
@@ -138,7 +164,7 @@
         function handleNoClick() {
             noBtn.style.position = 'fixed';
             
-            // 70% Safe Zone (15% margin on all sides)
+            // Movement strictly within the center 70% of the screen
             const margin = 0.15; 
             const minX = window.innerWidth * margin;
             const maxX = window.innerWidth * (1 - margin) - noBtn.offsetWidth;
@@ -151,9 +177,14 @@
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
 
-            yesFontSize += 0.4;
+            yesFontSize += 0.3;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
-            yesBtn.style.padding = `${yesFontSize * 12}px ${yesFontSize * 25}px`;
+            yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 25}px`;
+
+            // Adjust emoji size inside the growing button
+            const emoji = yesBtn.querySelector('.emoji-img');
+            emoji.style.width = `${yesFontSize * 20}px`;
+            emoji.style.height = `${yesFontSize * 20}px`;
 
             phraseIndex = (phraseIndex + 1) % guiltPhrases.length;
             noBtn.innerText = guiltPhrases[phraseIndex];
